@@ -22,3 +22,13 @@ Route::get("/", function ()
 {
     return view("layout");
 });
+
+Route::get("/profile", function ()
+{
+    return view("dashboard.profile");
+});
+
+// Route::get("/profile/blank", function ()
+// {
+//     return view("dashboard.blank");
+// });
