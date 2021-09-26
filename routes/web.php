@@ -2,10 +2,9 @@
 
 use App\Http\Controllers\TaskController;
 use App\Http\Controllers\FolderController;
-use App\Models\Folder;
-use App\Models\Task;
-use App\Http\Controllers\TestController;
+use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,17 +17,16 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get("/", function ()
-{
-    return view("layout");
-});
+// Route::get('/', [HomeController::class, 'index'])->name('home');
+// Auth::routes();
+// Route::get("/today", [FolderController::class, "index"])->name("Today");
+// Route::get("/important", [FolderController::class, "index"]);
+// Route::get("/Events", [FolderController::class, "index"]);
+// Route::get("/project", [FolderController::class, "index"]);
 
-Route::get("/profile", function ()
-{
-    return view("dashboard.profile");
+Route::put("/test", function() {
+    return "request recived";
 });
+Auth::routes();
 
-// Route::get("/profile/blank", function ()
-// {
-//     return view("dashboard.blank");
-// });
+Route::get('/', [App\Http\Controllers\HomeController::class, 'index']);

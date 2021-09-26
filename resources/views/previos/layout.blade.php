@@ -4,8 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <link href="{{ asset('css/tailwind/app.css') }}" rel="stylesheet">
     <link href="{{ asset("css/style.css") }}" rel="stylesheet" >
+    <link href="{{ asset("css/fontawesome/all.min.css") }}" rel="stylesheet" >
     <title> Donemod </title>
 </head>
 <body>
@@ -16,12 +18,17 @@
               <div class="flex items-center">
                 <div class="flex-shrink-0">
                   {{-- <img class="h-8" src="/img/logo.png" alt="Workflow"> --}}
+                  <form method="POST" action="logout" >
+                    @csrf
+                    <button class="bg-red-600" type="submit"> Logout </button>
+                  </form>
                 </div>
               </div>
 
                 <div class="hidden md:block">
                   <div class="ml-10 flex items-baseline">
                     {{-- <a href="#" class="text-gray-300 px-3 py-2 rounded-md text-xl"> Donemod </a> --}}
+
                     <img class="h-8" src="/img/logo.png" alt="Workflow">
                   </div>
                 </div>
@@ -101,6 +108,7 @@
         {{-- sidebar --}}
           <div class="h-auto flex-auto max-w-xs2 m-1 divide-y border-r-2 hidden sm:block">
             {{-- <span> Lists </span> --}}
+              
           <div class="flex justify-between text-lg">
               <p class="m-1"> <i class="fa fa-calendar" aria-hidden="true"></i> Today </p>
               <span class="mr-1"> 9 </span>
@@ -127,6 +135,12 @@
               <p class="m-1"> <i class="fa fa-columns" aria-hidden="true"></i> Planned </p>
               <span class="mr-1"> 2 </span>
             </div>
+
+            {{-- <form action="/task" method="post" class="m-2"> --}}
+              <input type="text" name="taskName" class="rounded outline-none border-2 border-red-600 p-0.5">
+              <input type="button" value="Add" id="test" class="cursor-pointer outline-none rounded bg-red-400 text-white p-0.5">
+            {{-- </form> --}}
+
           </div>
         {{-- sidebar --}}
 
@@ -215,6 +229,8 @@
       {{-- Navigation bar --}}
 
     </div>
-      <script src="https://use.fontawesome.com/44d08aa6b0.js"></script>
+      <script src="/js/all.min.js"></script>
+      <script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+      <script src="/js/jqueryHandler.js"></script>
 </body>
 </html>
