@@ -33,6 +33,7 @@
                       <i class="input-icon uil uil-lock-alt"></i>
                     </div>
                     <button type="submit" class="btn mt-4"> Submit </button>
+                    <br>{{-- <a href="" class="btn btn-google mt-4">  Login With <img src="/img/google.png" class="ml-2" alt=""> </a> --}}
                 </form>
                 @if (Route::has('password.request'))
                         <p class="mb-0 mt-4 text-center">

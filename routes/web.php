@@ -29,4 +29,4 @@ Route::put("/test", function() {
 });
 Auth::routes();
 
-Route::get('/', [App\Http\Controllers\HomeController::class, 'index']);
+Route::get('/', [HomeController::class, 'index']);
