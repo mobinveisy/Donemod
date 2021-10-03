@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Http\Controllers\FoldersController;
+use App\Http\Controllers\TaskController;
+// use Google\Service\OrgPolicyAPI\Resource\FoldersConstraints;
 
 class HomeController extends Controller
 {
@@ -23,6 +26,15 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        $folders = new FoldersController;
+        $lists = $folders->index();
+
+        $tasks = new TaskController;
+        $allTasks = $tasks->index();
+        return view('home', 
+        [
+            "folders" => $lists,
+            "tasks" => $allTasks
+        ]);
     }
 }
