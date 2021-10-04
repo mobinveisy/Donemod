@@ -5,34 +5,25 @@ $(document).ready(function () {
       }
     });
 
-    // $("#addTaskForm").submit(function(e){
-    //   e.preventDefault();
+    $("#addTaskForm").submit(function(e){
+      e.preventDefault();
 
-    //   var taskName = $("#addt").val();
-    //   var listName = $("#addt").attr("data-list-name");
-    //   var userId = $("#addt").attr("data-user-id");
-    //   var listId = $("#listInfo").attr("data-list-id");
-    //   // var url = $(this).attr("action");
+      var taskName = $("#addt").val();
+      var userId = $("#addt").attr("data-user-id");
+      var listId = $("#listInfo").attr("data-list-id");
 
-    //   $.ajax({
-    //     method:"POST",
-    //     url:"/task",
-    //     data:{
-    //       taskName: taskName,
-    //       userId: userId,
-    //       listId: listId
-    //     },
-    //   }).done(function(message){
-    //     var taskDiv = "";
-    //     taskDiv = "<div class='flex flex-col m-4 main-bg' id='tasks'>" + 
-    //         "<p> <i class='fa fa-check-circle fa-2x mr-2 mt-2 nav__icon pl-5' aria-hidden='true'></i>" + 
-    //         "<a href='/tasks/"+ listName + "/" + listId + ">" + message + "</a>" +
-    //         "</p>" + 
-    //         "<p class='border-black pl-10 ml-5'> " + listName + "</p>" + 
-    //         "</div>";
-    //         $("#tasks").append(taskDiv);
-    //   });
-    // })
+      $.ajax({
+        method:"POST",
+        url:"/task",
+        data:{
+          taskName: taskName,
+          userId: userId,
+          listId: listId
+        },
+      }).done(function(name){
+        location.reload();
+      });
+    })
 
 /* <div class="flex flex-col m-4 main-bg" id="tasks">
       <p class=""> <i class="fa fa-check-circle fa-2x mr-2 mt-2 nav__icon pl-5" aria-hidden="true"></i> 

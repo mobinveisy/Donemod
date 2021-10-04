@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Tasks;
 use App\Http\Controllers\FoldersController;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Route;
 
 class TaskController extends Controller
 {
@@ -84,7 +85,18 @@ class TaskController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        // $tasks = new Tasks;
+        
+        $aTask = Tasks::where("id",$id)->get()->first();        
+        if($aTask->isDone == 1)
+        {  
+            Tasks::where("id", $id)->update(["isDone"=>0]);
+        }
+        else
+        {
+            Tasks::where("id", $id)->update(["isDone"=>1]);
+        }
+        // return redirect("/tasks");
     }
 
     /**
@@ -96,7 +108,7 @@ class TaskController extends Controller
     public function destroy($id)
     {
         $tasks = new Tasks;
-        $tasks->delete($id);
-        return "Done";
+        $tasks->destroy($id);
+        return redirect("/tasks/today");
     }
 }

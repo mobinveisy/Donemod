@@ -1,0 +1,20 @@
+  <div class="h-auto flex-auto m-1 divide-y text-white task-bg" >
+    <span class="text-2xl ml-4"> {{strtoupper($listName)}}  </span>
+    @foreach ($tasks as $task)
+    @if ($task->folderId == $listId)
+    <div class="flex flex-col m-4 main-bg">
+      {{-- <a href="/tasks/{{$listName }}/{{ $listId }}/{{ $task->id }}"> --}}
+      <a class="tasks" data-list-name="{{$listName }}" data-list-id="{{ $listId }}" data-task-id="{{ $task->id }}">
+      <span class="ml-6 mb-2">
+        <button data-task-id="{{$task->id}}" class="isDone">
+          <i class="fa <?= $task->isDone == 1 ? "fa-check-circle" : "fa-circle"?> fa-2x mt-2 <?= $task->isDone == 1 ? "nav__icon" : ""?> pl-1"></i>
+           {{ $task->name }}
+        </button>
+       </span>
+      </a>
+      {{-- </a> --}}
+       <span class="ml-6"> Date : {{ $task->created_at->format("d/m") }} </span>
+    </div>
+    @endif
+    @endforeach
+  </div>

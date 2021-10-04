@@ -10,14 +10,59 @@
     <title> Donemod </title>
 </head>
 <body>
-    <main>
+    {{-- <main> --}}
         @yield('login')
         @yield('content')
-    </main>
-    
     <script src="{{ asset("js/FontAwesome/all.min.js") }}"></script>
     <script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
     <script src="{{ asset("js/scripts.js") }}"></script>
     <script src="{{ asset("js/jquery/jqueryHandler.js") }}"></script>
+    <script>
+        $(document).ready(function () {
+        $.ajaxSetup({
+          headers: {
+              'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+          }
+        });
+        $(".isDone").click(function(){
+          var taskId = $(this).attr("data-task-id");
+          $.ajax({
+            method:"PUT",
+            url:"/task/" + taskId,
+            data:{},
+          }).done(function(name){
+          });
+        })
+
+        // $(".lists").click(function(){
+        //   var listId = $(this).attr("data-list-id");
+        //   var listName = $(this).attr("data-list-name");
+        //   var url = "/tasks/" + listName + "/" + listId;
+        // //   var tasks = "@yield('tasks')"
+        //   $.ajax({
+        //     method:"GET",
+        //     url:url,
+        //     data:{},
+        //   }).done(function(name){
+        //     // location.reload();
+        //     // window.history.pushState("", "Title", url);           
+        //   });
+        // })
+
+        // $(".tasks").click(function(){
+        //   var listId = $(this).attr("data-list-id");
+        //   var listName = $(this).attr("data-list-name");
+        //   var taskId = $(this).attr("data-task-id");
+        //   var url = "/tasks/" + listName + "/" + listId + "/" + taskId;
+        //   $.ajax({
+        //     method:"GET",
+        //     url:url,
+        //     data:{},
+        //   }).done(function(name){
+        //     // window.history.pushState("", "Title", url);
+        //   });
+        // })
+      })
+        </script>
 </body>
 </html>

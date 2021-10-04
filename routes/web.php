@@ -32,13 +32,16 @@ use Monolog\Registry;
 Auth::routes();
 
 Route::get('/tasks', [HomeController::class, 'index']);
+Route::get('/profile', function(){
+    return view("dashboard.profile");
+});
 Route::get("/list", function () {
     return abort("404");
 });
 Route::resource("/task", TaskController::class);
 Route::resource("/list", FoldersController::class);
 
-Route::get("/tasks/{listName}/{listId}/{taskId?}", [HomeController::class, 'index']);
+Route::get("/tasks/{listName}/{listId?}/{taskId?}", [HomeController::class, 'index']);
 // Route::get("/tasks/today", [HomeController::class, 'index']);
 // Route::get("/tasks/events", [HomeController::class, 'index']);
 // Route::get("/tasks/planned", [HomeController::class, 'index']);

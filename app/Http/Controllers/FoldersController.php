@@ -41,7 +41,7 @@ class FoldersController extends Controller
         $folders = new Folders;
         $folders->name = "Today";
         $folders->userId = $userId;
-        $folders->taskEntity = 1;
+        $folders->taskEntity = 0;
         $folders->save();
     }
     public function store2($userId)
@@ -49,7 +49,7 @@ class FoldersController extends Controller
         $folders = new Folders;
         $folders->name = "Events";
         $folders->userId = $userId;
-        $folders->taskEntity = 1;
+        $folders->taskEntity = 0;
         $folders->save();
     }
     public function store3($userId)
@@ -57,7 +57,7 @@ class FoldersController extends Controller
         $folders = new Folders;
         $folders->name = "Planned";
         $folders->userId = $userId;
-        $folders->taskEntity = 1;
+        $folders->taskEntity = 0;
         $folders->save();
     }
     public function store4($userId)
@@ -65,7 +65,7 @@ class FoldersController extends Controller
         $folders = new Folders;
         $folders->name = "Meeting";
         $folders->userId = $userId;
-        $folders->taskEntity = 1;
+        $folders->taskEntity = 0;
         $folders->save();
     }
     public function store5($userId)
@@ -73,7 +73,7 @@ class FoldersController extends Controller
         $folders = new Folders;
         $folders->name = "Ideas";
         $folders->userId = $userId;
-        $folders->taskEntity = 1;
+        $folders->taskEntity = 0;
         $folders->save();
     }
     public function store6($userId)
@@ -81,7 +81,7 @@ class FoldersController extends Controller
         $folders = new Folders;
         $folders->name = "Project";
         $folders->userId = $userId;
-        $folders->taskEntity = 1;
+        $folders->taskEntity = 0;
         $folders->save();
     }
     
