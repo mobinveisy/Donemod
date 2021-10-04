@@ -109,6 +109,6 @@ class TaskController extends Controller
     {
         $tasks = new Tasks;
         $tasks->destroy($id);
-        return redirect("/tasks/today");
+        return back();
     }
 }

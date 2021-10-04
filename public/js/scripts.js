@@ -1,32 +1,203 @@
-$(window).on('load', function(event) {
-    $('.preloader').delay(500).fadeOut(500);
-});
-// -------------------------------------------
-/* DOMContentLoaded */
-main();
-document.addEventListener("DOMContentLoaded", main);
+// $(window).on('load', function(event) {
+//     $('.preloader').delay(500).fadeOut(500);
+// });  // preloader
 
-/* main() FUNCTION */
+// main 
+var undo = false;
+var list_item_to_undo;
+var time_out;
 
+$(document).ready(function(){ 
 
+  $(".musicpopup a").on("click", function() {
+    $(".overlay1").addClass("is-on");
+  });
+  
+  $("#close").on("click", function() {
+    $(".overlay1").removeClass("is-on");
+  });
+  
+  /*DELETE*/
+  $('body').on('click', '.fa-trash', function() {
+    
+    if($('.main ul li').hasClass("temp_deleted")){
+      $('.main ul li.temp_deleted').remove();
+    }
+    
+    list_item_to_undo = $(this).parent().parent();    
+    var undo_time = 10000;
+    
+    list_item_to_undo.animate({
+      height: "0px"
+    }, 200, function() {
+      $(this).addClass('temp_deleted').hide();
+    });
+    
+    function_undo(list_item_to_undo, undo);     
+   
+    //undo
+    $('.undo').addClass('active');
+    
+    clearTimeout(time_out);
+    
+    time_out = setTimeout(function() {
+      $('.undo').removeClass('active');      
+      if (undo === false){        
+        $('.main ul li.temp_deleted').remove();
+      }
+    }, undo_time);
+    
+  });
+  /*DELETE*/
+  
+  
+  /*UNDO*/
+  $('.undo div').click(function(){
+    undo = true;
+    function_undo(list_item_to_undo, undo);
+    $(this).parent().removeClass('active');
+  });
+  
+  
+  /*EDIT*/
+  $('body').on('click', '.fa-pencil', function() {
+     var current = $(this).parent().parent().find('span').text();
+     $(this).parent().parent().find('input[type=text]').val(current).show().select();
+  });
+  
+  
+  $('body').on('keypress', '.main ul li input[type=text]', function(e) {
+      if (e.which == 13) {
+        //hide undo
+        $('.undo').removeClass('active');
+        
+        var newvalue = $(this).val();
+        $(this).parent().parent().find('label span.item-name').text(newvalue);
+        $(this).hide();
+        return false;    //<---- Add this line
+      } 
+  });
+  
+  
+  $(document).on('blur', 'input[type=text]', function() {   
+    $(this).hide();
+  });
+  
+  
+  
+  
+  
+  /*ADD NEW*/
+   $('.add').click(function(){
+    $(this).find('input[type=text]').val('Add new').show().select();
+  });
+  
+  
+  $('body').on('keypress', '.add input[type=text]', function(e) {
+    if (e.which == 13) {
+      
+      //hide undo
+      $('.undo').removeClass('active');
+      
+      var newvalue = $(this).val();
+      
+      var clone = $(".main ul li:first").clone();
+      clone.find('label span.item-name').text(newvalue);
+      
+      var random_num = Math.floor(Math.random() * 1000) + 1 
+      var id = newvalue.replace(/\s/g,'');
+      var ids = id + random_num;
+ 
+      clone.find('input').attr({
+          id:ids
+      });      
+     clone.find('label').attr('for', ids);
+     clone.find("input[type=checkbox]").prop('checked', false);  
+     clone.removeClass('priority priority1 priority2 checked');
+     clone.show();
+     clone.appendTo(".main ul");
+      
+      $( '.add' ).trigger( "click" );
+      return false;    //<---- Add this line
+    }
+  });
+  
+  
+  
+  /*PRIORITY*/  
+  $('body').on('click', '.main ul li .actions .prio-btn', function() {
+    
+    if($(this).parent().parent().hasClass("priority2")){
+        
+        $(this).parent().parent().addClass('reset').removeClass("priority priority1 priority2 ");
+      
+      return false;
+    }
 
-function main() {
-  // theme-switcher
-  // document
-  //   .getElementById("theme-switcher")
-  //   .addEventListener("click", function () {
-  //     document.querySelector("body").classList.toggle("light");
-  //     const themeImg = this.children[0];
-  //     themeImg.setAttribute(
-  //       "src",
-  //       themeImg.getAttribute("src") === "./assets/images/icon-sun.svg"
-  //         ? "./assets/images/icon-moon.svg"
-  //         : "./assets/images/icon-sun.svg"
-  //     );
+    if($(this).parent().parent().hasClass("priority1")){
+        $(this).parent().parent().addClass("priority2");
+    }
+     
+    $(this).parent().parent().addClass('priority priority1');
+         
+  });
+   
+  
+  /*CLICK*/
+  $('body').on('change', '.main ul li input[type=checkbox]', function() {
+    if ($(this).prop('checked')) {
+      $(this).parent().addClass('checked');
+    }else{
+      $(this).parent().removeClass('checked');
+    }
+    
+  });
+  
+  
+  /*SORTABLE*/
+  $( function() {
+    $( ".main ul" ).sortable({
+      animation: 100,
+      delay: 150, 
+      cursor:'move',
+      handle: ".dragger",
+      tolerance: "pointer",
+      axis:'y'
+    });
+    $( "#sortable" ).disableSelection();
+  } );
+  
+  
+
+  let tabsContainer = document.querySelector("#tabs");
+
+  let tabTogglers = tabsContainer.querySelectorAll("a");
+  // console.log(tabTogglers);
+  
+  // tabTogglers.forEach(function(toggler) {
+  //   toggler.addEventListener("click", function(e) {
+  //     e.preventDefault();
+  
+  //     let tabName = this.getAttribute("href");
+  
+  //     let tabContents = document.querySelector("#tab-contents");
+  
+  //     for (let i = 0; i < tabContents.children.length; i++) {
+  
+  //       tabTogglers[i].parentElement.classList.remove("border-blue-400", "border-b",  "-mb-px", "opacity-100");  tabContents.children[i].classList.remove("hidden");
+  //       if ("#" + tabContents.children[i].id === tabName) {
+  //         continue;
+  //       }
+  //       tabContents.children[i].classList.add("hidden");
+  
+  //     }
+  //     e.target.parentElement.classList.add("border-blue-400", "border-b-4", "-mb-px", "opacity-100");
   //   });
-
-
-  const clickable = document.getElementById('clickable')
+  // });
+  
+  document.getElementById("default-tab").click();
+  
+const clickable = document.getElementById('clickable')
   const menu = document.getElementById('menu')
   const outClick = document.getElementById('out-click')
   
@@ -45,201 +216,64 @@ function main() {
     outClick.style.display = "none"
   })
 
-  // get alltodos and initialise listeners
-  addTodo();
-  // dragover on .todos container
-  document.querySelector(".todos").addEventListener("dragover", function (e) {
-    e.preventDefault();
-    if (
-      !e.target.classList.contains("dragging") &&
-      e.target.classList.contains("card")
-    ) {
-      const draggingCard = document.querySelector(".dragging");
-      const cards = [...this.querySelectorAll(".card")];
-      const currPos = cards.indexOf(draggingCard);
-      const newPos = cards.indexOf(e.target);
-      console.log(currPos, newPos);
-      if (currPos > newPos) {
-        this.insertBefore(draggingCard, e.target);
-      } else {
-        this.insertBefore(draggingCard, e.target.nextSibling);
-      }
-      const todos = JSON.parse(localStorage.getItem("todos"));
-      const removed = todos.splice(currPos, 1);
-      todos.splice(newPos, 0, removed[0]);
-      localStorage.setItem("todos", JSON.stringify(todos));
+
+
+  (function() {
+    'use strict';
+  
+    function getDate() {
+      var date = new Date();
+      var weekday = date.getDay();
+      var month = date.getMonth();
+      var day = date.getDate();
+      var year = date.getFullYear();
+      var hour = date.getHours();
+      var minutes = date.getMinutes();
+      var seconds = date.getSeconds();
+  
+      if (hour < 10) hour = "0" + hour;
+      if (minutes < 10) minutes = "0" + minutes;
+      if (seconds < 10) seconds = "0" + seconds;
+  
+      var monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+  
+      var weekdayNames = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+      
+      var monthColors = ["#1E90FF", "#FF69B4", "#00FFFF", "#7CFC00", "#00CED1", "#FF1493", "#00008B", "#FF7F50", "#C71585", "#FF4500", "#FFD700", "#800000"]
+  
+      var ampm = " PM ";
+  
+      if (hour < 12) ampm = " AM ";
+  
+      if (hour > 12) hour -= 12;
+  
+      var showDate = weekdayNames[weekday] + ", " + monthNames[month] + " " + day + ", " + year;
+  
+      var showTime = hour + ":" + minutes + ":" + seconds + ampm;
+      
+      var color = monthColors[month];
+  
+      document.getElementById('date').innerHTML = showDate;
+  
+      document.getElementById('time').innerHTML = showTime;
+      
+      document.bgColor = color;
+      
+  
+      requestAnimationFrame(getDate);
     }
-  });
-  // add new todos on user input
-  const add = document.getElementById("add-btn");
-  const txtInput = document.querySelector(".txt-input");
-  add.addEventListener("click", function () {
-    const item = txtInput.value.trim();
-    if (item) {
-      txtInput.value = "";
-      const todos = !localStorage.getItem("todos")
-        ? []
-        : JSON.parse(localStorage.getItem("todos"));
-      const currentTodo = {
-        item,
-        isCompleted: false,
-      };
-      addTodo([currentTodo]);
-      todos.push(currentTodo);
-      localStorage.setItem("todos", JSON.stringify(todos));
-    }
-    txtInput.focus();
-  });
-  // add todo also on enter key event
-  txtInput.addEventListener("keydown", function (e) {
-    if (e.keyCode === 13) {
-      add.click();
-    }
-  });
-  // change tab  todo 
-  document.querySelector(".filter").addEventListener("click", function (e) {
-    const id = e.target.id;
-    if (id) {
-      document.querySelector(".on").classList.remove("on");
-      document.getElementById(id).classList.add("on");
-      document.querySelector(".todos").className = `todos ${id}`;
-    }
-  });
-  // clear completed
-  document
-    .getElementById("clear-completed")
-    .addEventListener("click", function () {
-      deleteIndexes = [];
-      document.querySelectorAll(".card.checked").forEach(function (card) {
-        deleteIndexes.push(
-          [...document.querySelectorAll(".todos .card")].indexOf(card)
-        );
-        card.classList.add("fall");
-        card.addEventListener("animationend", function (e) {
-          setTimeout(function () {
-            card.remove();
-          }, 100);
-        });
-      });
-      removeManyTodo(deleteIndexes);
-    });
-}
+  
+    getDate();
+  
+  }());
+  
+});
 
-/* stateTodo() FUNCTION TO UPDATE TODO ABOUT COMPLETION */
 
-function stateTodo(index, completed) {
-  const todos = JSON.parse(localStorage.getItem("todos"));
-  todos[index].isCompleted = completed;
-  localStorage.setItem("todos", JSON.stringify(todos));
-}
-
-/* removeManyTodo() FUNCTION TO REMOVE ONE TODO */
-
-function removeTodo(index) {
-  const todos = JSON.parse(localStorage.getItem("todos"));
-  todos.splice(index, 1);
-  localStorage.setItem("todos", JSON.stringify(todos));
-}
-
-/* removeManyTodo FUNCTION TO REMOVE MANY TODOS */
-
-function removeManyTodo(indexes) {
-  let todos = JSON.parse(localStorage.getItem("todos"));
-  todos = todos.filter(function (todo, index) {
-    return !indexes.includes(index);
-  });
-  localStorage.setItem("todos", JSON.stringify(todos));
-}
-
-/* addTodo() FUNCTION TO LIST/CREATE TODOS AND ADD EVENT LISTENERS */
-
-function addTodo(todos = JSON.parse(localStorage.getItem("todos"))) {
-  if (!todos) {
-    return null;
+function function_undo(list_item_to_undo, undo){  
+  if(undo==true){
+      list_item_to_undo.css('height', 'auto');
+      list_item_to_undo.show();
+      list_item_to_undo.removeClass('temp_deleted');
   }
-  const itemsLeft = document.getElementById("items-left");
-  // create cards
-  todos.forEach(function (todo) {
-    const card = document.createElement("li");
-    const cbContainer = document.createElement("div");
-    const cbInput = document.createElement("input");
-    const check = document.createElement("span");
-    const item = document.createElement("p");
-    const button = document.createElement("button");
-    const img = document.createElement("img");
-    // Add classes
-    card.classList.add("card");
-    button.classList.add("clear");
-    cbContainer.classList.add("cb-container");
-    cbInput.classList.add("cb-input");
-    item.classList.add("item");
-    check.classList.add("check");
-    button.classList.add("clear");
-    // Set attributes
-    card.setAttribute("draggable", true);
-    img.setAttribute("src", "./assets/images/icon-cross.svg");
-    img.setAttribute("alt", "Clear it");
-    cbInput.setAttribute("type", "checkbox");
-    // set todo item for card
-    item.textContent = todo.item;
-    // if completed -> add respective class / attribute
-    if (todo.isCompleted) {
-      card.classList.add("checked");
-      cbInput.setAttribute("checked", "checked");
-    }
-    // Add drag listener to card
-    card.addEventListener("dragstart", function () {
-      this.classList.add("dragging");
-    });
-    card.addEventListener("dragend", function () {
-      this.classList.remove("dragging");
-    });
-    // Add click listener to checkbox
-    cbInput.addEventListener("click", function () {
-      const correspondingCard = this.parentElement.parentElement;
-      const checked = this.checked;
-      stateTodo(
-        [...document.querySelectorAll(".todos .card")].indexOf(
-          correspondingCard
-        ),
-        checked
-      );
-      checked
-        ? correspondingCard.classList.add("checked")
-        : correspondingCard.classList.remove("checked");
-      itemsLeft.textContent = document.querySelectorAll(
-        ".todos .card:not(.checked)"
-      ).length;
-    });
-    // Add click listener to clear button
-    button.addEventListener("click", function () {
-      const correspondingCard = this.parentElement;
-      correspondingCard.classList.add("fall");
-      removeTodo(
-        [...document.querySelectorAll(".todos .card")].indexOf(
-          correspondingCard
-        )
-      );
-      correspondingCard.addEventListener("animationend", function () {
-        setTimeout(function () {
-          correspondingCard.remove();
-          itemsLeft.textContent = document.querySelectorAll(
-            ".todos .card:not(.checked)"
-          ).length;
-        }, 100);
-      });
-    });
-    // parent.appendChild(child)
-    button.appendChild(img);
-    cbContainer.appendChild(cbInput);
-    cbContainer.appendChild(check);
-    card.appendChild(cbContainer);
-    card.appendChild(item);
-    card.appendChild(button);
-    document.querySelector(".todos").appendChild(card);
-  });
-  // Update itemsLeft
-  itemsLeft.textContent = document.querySelectorAll(
-    ".todos .card:not(.checked)"
-  ).length;
 }
