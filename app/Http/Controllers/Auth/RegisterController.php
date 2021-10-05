@@ -71,8 +71,7 @@ class RegisterController extends Controller
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
         ]);
-
-        DefaltFolders::dispatch($user);
-        return $user;   
+        DefaltFolders::dispatchSync($user);
+        return $user;
     }
 }

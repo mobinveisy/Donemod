@@ -52,7 +52,7 @@
               <!-- Profile dropdown -->
               <div class="ml-3 relative">
                 <div>
-                  <a href="profile">
+                  <a href="/profile">
                     <button type="button"
                       class="max-w-xs bg-gray-800 rounded-full flex items-center text-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white"
                       id="user-menu-button" aria-expanded="false" aria-haspopup="true">
@@ -62,6 +62,15 @@
                   </a>
                 </div>
               </div>
+
+                
+<div class="overlay1">
+  <div class="content-music">
+    <div id="close"><i class="fa fa-times" aria-hidden="true"></i></div>
+    <iframe src="https://open.spotify.com/embed/playlist/5GfvZIg4K2Jy98UorzhwIr" width="100%" height="380" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture">
+    </iframe>
+    </div>
+
             </div>
           </div>
           <div class="-mr-2 flex md:hidden">
@@ -82,10 +91,12 @@
  <!-- sidebar  -->
     <div class="h-auto flex-auto max-w-xs2 m-1 divide-y hidden sm:block" id="tabs">
        <!-- <span> Lists </span>  -->
- @foreach($folders as $folder)
+ @foreach($folders as $folder)  
+<a href="/tasks/{{ strtolower($folder->name) }}/{{$folder->id}}">
 <div class="flex justify-between text-lg menu-bg">
   <p class="m-1">
   <button class="lists" data-list-id="{{$folder->id}}" data-list-name="{{$folder->name}}">
+    
       @if ($folder->name == "Today")
       &#128197;
       @elseif($folder->name == "Events")
@@ -102,12 +113,11 @@
       🗄️
       @endif
       {{-- {{ $folder->name }} --}}
-      <a href="/tasks/{{ strtolower($folder->name) }}/{{$folder->id}}"> {{ $folder->name }} </a>
+       {{ $folder->name }} 
   </button>
-  {{-- <button class="lists" data-list-name="{{ strtolower($folder->name) }}" data-list-id="{{$folder->id}}"> {{ $folder->name }} </button> --}}
    </p>
-  <span class="mr-1 num-bg"> {{ $folder->taskEntity }} </span>
 </div>
+</a>
 @endforeach
 
       <div class="flex justify-between text-lg menu-bg">
@@ -248,45 +258,32 @@
 </div>
     <!-- Tasks -->
   
-  
-<div class="overlay1">
-  <div class="content-music">
-    <div id="close"><i class="fa fa-times" aria-hidden="true"></i></div>
-    <iframe src="https://open.spotify.com/embed/playlist/5GfvZIg4K2Jy98UorzhwIr" width="100%" height="380" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture">
-    </iframe>
-    </div>
+
   
   <!-- Navigation bar  -->
   <div class="flex sm:hidden">
     <nav class="nav">
-      <a href="#" class="nav__link">
-        <span>&#128197;</span> 
-        <span class="nav__text "> Today </span>
-      </a>
-      <a href="#" class="nav__link nav__link--active">
-        <span>&#11088;</span>
-        <span class="nav__text"> Important </span>
-      </a>
-      <a href="#" class="nav__link">
-        <span>&#127970;</span>
-        <span class="nav__text">Project</span>
-      </a>
-      <a href="#" class="nav__link">
-        <span>&#128202;</span>
-        <span class="nav__text"> Planned </span>
-      </a>
-      <a href="#" class="nav__link">
-        <span>&#128198;</span>
-        <span class="nav__text">Events</span>
-      </a>
-      <a href="#" class="nav__link">
-        <span>&#129309;</span>
-        <span class="nav__text"> Meeting </span>
-      </a>
-      <a href="#" class="nav__link">
-        <span>&#127911;</span>
-        <span class="nav__text">Music player</span>
-      </a>
+      @foreach ($folders as $folder)
+      <button class="lists" data-list-id="{{$folder->id}}" data-list-name="{{$folder->name}}">
+        @if ($folder->name == "Today")
+        &#128197;
+        @elseif($folder->name == "Events")
+        &#11088;
+        @elseif($folder->name == "Planned")
+        &#128202;
+        @elseif($folder->name == "Meeting")
+        &#129309;
+        @elseif($folder->name == "Ideas")
+        &#128278;
+        @elseif($folder->name == "Project")
+        &#127970;
+        @elseif($folder->name == "Tasks")
+        🗄️
+        @endif
+        {{-- {{ $folder->name }} --}}
+        <a href="/tasks/{{ strtolower($folder->name) }}/{{$folder->id}}"> {{ $folder->name }} </a>
+    </button>
+      @endforeach
     </nav>
     <!-- Navigation bar  -->
 

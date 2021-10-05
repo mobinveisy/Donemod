@@ -908,3 +908,8 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   color: rgb(255, 0, 0);
   cursor: pointer;
 }
+@media only screen and (max-width: 600px) {
+  .main1 .header{
+  display : none;
+  }
+  }

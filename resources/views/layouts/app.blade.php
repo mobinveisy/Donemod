@@ -77,27 +77,58 @@
             var userId = $(this).attr("data-user-id");
             var list_id = $(this).attr("data-list-id");
             var listName = $(this).attr("data-list-name");
-            // alert(taskName + remindData + userId + list_id);
-            $.ajax({
-              method:"POST",
-              url:"/task",
-              data:{
-                taskName:taskName,
-                remindData:remindData,
-                userId:userId,
-                listId:list_id,
-              }
-            }).done(function(){
-              window.location.replace("/tasks/"+ listName + "/" + list_id);
-            })
-
+            if(taskName.length != 0)
+            {
+              if(list_id != 0)
+                {
+                  $.ajax({
+                  method:"POST",
+                  url:"/task",
+                  data:{
+                    taskName:taskName,
+                    remindData:remindData,
+                    userId:userId,
+                    listId:list_id,
+                  }
+                    }).done(function(){
+                      window.location.replace("/tasks/"+ listName + "/" + list_id); 
+                    }) 
+                }
+                else
+                {
+                  alert("Please Select a list")
+                }
+            }
+            else
+            {
+              alert("Please Enter Task Name");
+            }
           });
-     
+          
+           setInterval(function () {
+          Push.create("Hello this is Donemod!", {
+            body: " dont forget to complete your task Today!",
+            icon: '../img/favicon.png',
+            timeout: 4000,
+            onClick: function () {
+                window.focus();
+                this.close();
+            }
+          });
+
+
+          }, 10000);
+          Push.create("Hello welcome to Donemod!", {
+          body: "complete your tasks Today!",
+          icon: '../img/favicon.png',
+          timeout: 5000,
+          onClick: function () {
+              window.focus();
+              this.close();
+          }
+        });
+
       })
-      // alert("dkhjdfg");
-      // var url = "/tasks/"+ listName.toLowerCase() + "/" + listId;
-      // window.history.pushState("object or string", "Title", url);
-      // location.reload();
         </script>
 </body>
 </html>
