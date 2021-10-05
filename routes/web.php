@@ -48,6 +48,8 @@ Route::get("/tasks/{listName}/{listId?}/{taskId?}", [HomeController::class, 'ind
 // Route::get("/tasks/meeting", [HomeController::class, 'index']);
 // Route::get("/tasks/ideas", [HomeController::class, 'index']);
 // Route::get("/tasks/project", [HomeController::class, 'index']);
+// Route::get("/test/task", [TaskController::class, 'showing']);
+// Route::get("/test/list", [FoldersController::class, 'showing']);
 
 
 

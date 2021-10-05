@@ -88,9 +88,9 @@ $(document).ready(function(){
   
   
   /*ADD NEW*/
-   $('.add').click(function(){
-    $(this).find('input[type=text]').val('Add new').show().select();
-  });
+  //  $('.add').click(function(){
+  //   $(this).find('input[type=text]').val('Add new').show().select();
+  // });
   
   
   $('body').on('keypress', '.add input[type=text]', function(e) {

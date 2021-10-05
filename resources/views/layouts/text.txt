@@ -18,3 +18,67 @@
     @endif
     @endforeach
   </div>
+
+
+
+  @foreach ($tasks as $task)
+    @if ($task->folderId == $listId)
+    <li class="checked">
+      <span class="priority-indicator"></span>
+      <div class="dragger">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20"><circle cy="7" cx="9.5" r="1" fill="#999"></circle><circle cy="7" cx="14" r="1" fill="#999"></circle><circle cy="12.5" cx="9.5" r="1" fill="#999"></circle><circle cy="12.5" cx="14" r="1" fill="#999"></circle><circle cy="18" cx="9.5" r="1" fill="#999"></circle><circle cy="18" cx="14" r="1" fill="#999"></circle></svg>
+      </div>
+      <input type="checkbox" id="1" checked/>
+      <label for="1">
+        <div class="checkbox">
+          <span class="fa fa-check"></span>
+          </div>
+        <span class="item-name"> {{$task->name}} </span>        
+        <input type="text">
+      </label>
+      <div class="actions">   
+        <span class="fa fa-dot-circle-o prio-btn"></span>
+        <span class="fa fa-pencil"></span>
+        <span class="fa fa-trash"></span>        
+      </div>
+    </li>
+        <button data-task-id="{{$task->id}}" class="isDone">
+          <i class="fa <?= $task->isDone == 1 ? "fa-check-circle" : "fa-circle"?> fa-2x mt-2 <?= $task->isDone == 1 ? "nav__icon" : ""?> pl-1"></i>
+           {{ $task->name }}
+        </button>
+      
+       <span class="ml-6"> Date : {{ $task->created_at->format("d/m") ??null }} </span>
+       @endif
+       @endforeach
+
+
+
+
+
+
+        @foreach($folders as $folder)
+    <div class="flex justify-between text-lg menu-bg">
+      <p class="m-1">
+      <span>
+          @if ($folder->name == "Today")
+          &#128197;
+          @elseif($folder->name == "Events")
+          &#11088;
+          @elseif($folder->name == "Planned")
+          &#128202;
+          @elseif($folder->name == "Meeting")
+          &#129309;
+          @elseif($folder->name == "Ideas")
+          &#128278;
+          @elseif($folder->name == "Project")
+          &#127970;
+          @elseif($folder->name == "Tasks")
+          🗄️
+          @endif
+      </span>
+      <a href="/tasks/{{ strtolower($folder->name) }}/{{$folder->id}}" id="listInfo" data-list-id="{{$listId}}"> {{ $folder->name }} </a>
+      {{-- <button class="lists" data-list-name="{{ strtolower($folder->name) }}" data-list-id="{{$folder->id}}"> {{ $folder->name }} </button> --}}
+       </p>
+      <span class="mr-1 num-bg"> {{ $folder->taskEntity }} </span>
+    </div>
+    @endforeach

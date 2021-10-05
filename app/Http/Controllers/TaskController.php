@@ -10,6 +10,19 @@ use Illuminate\Support\Facades\Route;
 
 class TaskController extends Controller
 {
+    public function showing()
+    {
+        $userId = Auth::user()->id ?? null;
+        $folders =  (new FoldersController())->index();     
+
+        $tasks = Tasks::where([
+           ["userId", $userId],
+           ])->get();
+        return view("tasks", [
+            "tasks" => $tasks,
+            "folders" => $folders
+        ]);
+    }
     /**
      * Display a listing of the resource.
      *
@@ -21,7 +34,6 @@ class TaskController extends Controller
         $userId = Auth::user()->id ?? null;
              $tasks = Tasks::where([
                 ["userId", $userId],
-                // ["folderId", $list->id??null]
                 ])->get();
          return $tasks;
     }
@@ -49,9 +61,11 @@ class TaskController extends Controller
         $tasks->name = $request->taskName;
         $tasks->userId = $request->userId;
         $tasks->folderId = $request->listId;
+        $tasks->reminder = $request->remindData;
+        // dd($request->userId);
         $tasks->isDone = 0;
         $tasks->save();
-        return $request->taskName;
+        // return $request->taskName;
     }
 
     /**
@@ -84,9 +98,7 @@ class TaskController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
-    {
-        // $tasks = new Tasks;
-        
+    {        
         $aTask = Tasks::where("id",$id)->get()->first();        
         if($aTask->isDone == 1)
         {  
@@ -96,7 +108,6 @@ class TaskController extends Controller
         {
             Tasks::where("id", $id)->update(["isDone"=>1]);
         }
-        // return redirect("/tasks");
     }
 
     /**
@@ -109,6 +120,5 @@ class TaskController extends Controller
     {
         $tasks = new Tasks;
         $tasks->destroy($id);
-        return back();
     }
 }

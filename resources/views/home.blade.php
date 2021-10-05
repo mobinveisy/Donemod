@@ -21,7 +21,7 @@
         <div class="flex items-center justify-between h-10">
           <div class="flex items-center">
             <div class="flex-shrink-0">
-              <a href="#">
+              <a href="/tasks">
                 <img class="h-8 " src="{{ asset("img/logo.png") }}" alt="Workflow">
               </a>
             </div>
@@ -30,7 +30,7 @@
           <div class="hidden md:block">
             <div class="ml-10 flex items-baseline">
 
-              <a href="#" class="text-gray-50 px-3 py-2 rounded-md text-xl"> Donemod </a>
+              <a href="/tasks" class="text-gray-50 px-3 py-2 rounded-md text-xl"> Donemod </a>
             </div>
           </div>
 
@@ -52,12 +52,12 @@
               <!-- Profile dropdown -->
               <div class="ml-3 relative">
                 <div>
-                  <a href="dashboard/index.html">
+                  <a href="profile">
                     <button type="button"
                       class="max-w-xs bg-gray-800 rounded-full flex items-center text-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white"
                       id="user-menu-button" aria-expanded="false" aria-haspopup="true">
                       <span class="sr-only">Open user menu</span>
-                      <img class="h-8 w-8 rounded-full" src="{{ asset("img/user.png") }}" alt="">
+                      <img class="h-8 w-8 rounded-full" src="{{ asset("img/vector_avatar.png") }}" alt="">
                     </button>
                   </a>
                 </div>
@@ -82,32 +82,34 @@
  <!-- sidebar  -->
     <div class="h-auto flex-auto max-w-xs2 m-1 divide-y hidden sm:block" id="tabs">
        <!-- <span> Lists </span>  -->
-    @foreach($folders as $folder)
-    <div class="flex justify-between text-lg menu-bg">
-      <p class="m-1">
-      <span>
-          @if ($folder->name == "Today")
-          &#128197;
-          @elseif($folder->name == "Events")
-          &#11088;
-          @elseif($folder->name == "Planned")
-          &#128202;
-          @elseif($folder->name == "Meeting")
-          &#129309;
-          @elseif($folder->name == "Ideas")
-          &#128278;
-          @elseif($folder->name == "Project")
-          &#127970;
-          @elseif($folder->name == "Tasks")
-          🗄️
-          @endif
-      </span>
-      <a href="/tasks/{{ strtolower($folder->name) }}/{{$folder->id}}" id="listInfo" data-list-id="{{$listId}}"> {{ $folder->name }} </a>
-      {{-- <button class="lists" data-list-name="{{ strtolower($folder->name) }}" data-list-id="{{$folder->id}}"> {{ $folder->name }} </button> --}}
-       </p>
-      <span class="mr-1 num-bg"> {{ $folder->taskEntity }} </span>
-    </div>
-    @endforeach
+ @foreach($folders as $folder)
+<div class="flex justify-between text-lg menu-bg">
+  <p class="m-1">
+  <button class="lists" data-list-id="{{$folder->id}}" data-list-name="{{$folder->name}}">
+      @if ($folder->name == "Today")
+      &#128197;
+      @elseif($folder->name == "Events")
+      &#11088;
+      @elseif($folder->name == "Planned")
+      &#128202;
+      @elseif($folder->name == "Meeting")
+      &#129309;
+      @elseif($folder->name == "Ideas")
+      &#128278;
+      @elseif($folder->name == "Project")
+      &#127970;
+      @elseif($folder->name == "Tasks")
+      🗄️
+      @endif
+      {{-- {{ $folder->name }} --}}
+      <a href="/tasks/{{ strtolower($folder->name) }}/{{$folder->id}}"> {{ $folder->name }} </a>
+  </button>
+  {{-- <button class="lists" data-list-name="{{ strtolower($folder->name) }}" data-list-id="{{$folder->id}}"> {{ $folder->name }} </button> --}}
+   </p>
+  <span class="mr-1 num-bg"> {{ $folder->taskEntity }} </span>
+</div>
+@endforeach
+
       <div class="flex justify-between text-lg menu-bg">
         <p class="m-1">  <span>	&#127911;</span><div  class="musicpopup"><a> music player</a></div> </p>
         <span class="mr-1 num-bg"></span>
@@ -115,67 +117,53 @@
     </div>
     <!--  sidebar  -->
 
+
     <!-- Tasks  -->
 <div class="h-auto flex-auto m-1 text-white task-bg">
-      <div id="date"></div> 
-      <div id="time"></div>
-      <hr>
-      <div class="text-center">
-        <span class="text-2xl mt-2"> Planned </span>
-      </div>
+      {{-- <div id="date"></div> 
+      <div id="time"></div> --}}
+      {{-- <hr> --}}
+      {{-- <div class="text-center">
+        <span class="text-2xl mt-2"> {{$listName}} </span>
+      </div> --}}
       <div class="undo">
-        Task deleted 
-        <div> 
+        Task Deleted 
+        {{-- <div> 
           <span class="fa fa-undo"></span>
           Undo
-        </div>
+        </div> --}}
       </div>
 
  <div class="wrapper1" id="clickable">
  <div class="main1">
-   <div class="header">
-     {{-- <h1 style="color: rgb(233, 225, 225);">to do list<span></span></h1> --}}
-   </div>
+   <div class="header"></div>
    <ul id="sortable">
-    <li style="display:none">
-      <span class="priority-indicator"></span>      
-      <div class="dragger">
-        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20"><circle cy="7" cx="9.5" r="1" fill="#999"></circle><circle cy="7" cx="14" r="1" fill="#999"></circle><circle cy="12.5" cx="9.5" r="1" fill="#999"></circle><circle cy="12.5" cx="14" r="1" fill="#999"></circle><circle cy="18" cx="9.5" r="1" fill="#999"></circle><circle cy="18" cx="14" r="1" fill="#999"></circle></svg>
-      </div>
-      <input type="checkbox"/>
-      <label>
-        <div class="checkbox"><span class="fa fa-check"></span></div>
-        <span class="item-name">learn react js </span>        
-        <input type="text">
-       </label>
-      <div class="actions">   
-        <span class="fa fa-dot-circle-o prio-btn"></span>
-        <span class="fa fa-pencil"></span>
-        <span class="fa fa-trash"></span>        
-      </div>
-    </li>
-    
+        {{-- Tasks Frome Tasks.blade.php --}}
+  @foreach ($tasks as $task)
+  @if ($task->folderId == $listId)
     <li class="checked">
       <span class="priority-indicator"></span>
-      <div class="dragger">
-        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20"><circle cy="7" cx="9.5" r="1" fill="#999"></circle><circle cy="7" cx="14" r="1" fill="#999"></circle><circle cy="12.5" cx="9.5" r="1" fill="#999"></circle><circle cy="12.5" cx="14" r="1" fill="#999"></circle><circle cy="18" cx="9.5" r="1" fill="#999"></circle><circle cy="18" cx="14" r="1" fill="#999"></circle></svg>
-      </div>
-      <input type="checkbox" id="1" checked/>
       <label for="1">
-        <div class="checkbox">
-          <span class="fa fa-check"></span>
-          </div>
-        <span class="item-name">study </span>        
-        <input type="text">
+      <a href="/tasks/{{$listName }}/{{ $listId }}/{{ $task->id }}">
+        <button data-task-id="{{$task->id}}" class="isDone">
+          <span  class="fa <?= $task->isDone == 1 ? "fa-check-circle" : "fa-circle"?> fa-2x mt-2 <?= $task->isDone == 1 ? "nav__icon" : ""?>"></span>
+            {{$task->name}}
+        </button>
+      <button data-task-id="{{$task->id}}" class="deleteTask">
+          <span class="fa fa-trash"></span>
+      </button>
+      </a>
       </label>
-      <div class="actions">   
-        <span class="fa fa-dot-circle-o prio-btn"></span>
-        <span class="fa fa-pencil"></span>
-        <span class="fa fa-trash"></span>        
-      </div>
     </li>
+       <span class="ml-6"> Date : {{ $task->created_at->format("d/m") ?? null }} </span>
+       @endif
+@endforeach
+    </div>
+ 
+
+
     
-    <li class="priority priority2">
+    {{-- <li class="priority priority2">
       <span class="priority-indicator"></span>
      <div class="dragger">
         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20"><circle cy="7" cx="9.5" r="1" fill="#999"></circle><circle cy="7" cx="14" r="1" fill="#999"></circle><circle cy="12.5" cx="9.5" r="1" fill="#999"></circle><circle cy="12.5" cx="14" r="1" fill="#999"></circle><circle cy="18" cx="9.5" r="1" fill="#999"></circle><circle cy="18" cx="14" r="1" fill="#999"></circle></svg>
@@ -191,9 +179,9 @@
         <span class="fa fa-pencil"></span>
         <span class="fa fa-trash"></span>
       </div>
-    </li>
+    </li> --}}
     
-    <li class="priority priority1">
+    {{-- <li class="priority priority1">
       <span class="priority-indicator"></span>
       <div class="dragger">
         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20"><circle cy="7" cx="9.5" r="1" fill="#999"></circle><circle cy="7" cx="14" r="1" fill="#999"></circle><circle cy="12.5" cx="9.5" r="1" fill="#999"></circle><circle cy="12.5" cx="14" r="1" fill="#999"></circle><circle cy="18" cx="9.5" r="1" fill="#999"></circle><circle cy="18" cx="14" r="1" fill="#999"></circle></svg>
@@ -209,9 +197,9 @@
         <span class="fa fa-pencil"></span>
         <span class="fa fa-trash"></span>
       </div>
-    </li>
+    </li> --}}
     
-    <li>
+    {{-- <li>
       <span class="priority-indicator"></span>
       <div class="dragger">
         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20"><circle cy="7" cx="9.5" r="1" fill="#999"></circle><circle cy="7" cx="14" r="1" fill="#999"></circle><circle cy="12.5" cx="9.5" r="1" fill="#999"></circle><circle cy="12.5" cx="14" r="1" fill="#999"></circle><circle cy="18" cx="9.5" r="1" fill="#999"></circle><circle cy="18" cx="14" r="1" fill="#999"></circle></svg>
@@ -227,18 +215,16 @@
         <span class="fa fa-pencil"></span>
         <span class="fa fa-trash"></span>
       </div>
-    </li>
+    </li> --}}
   </ul>
       <div class="add">
         <div class="add-txt">
           <div>
-            <span class="fa fa-plus"></span>
+            {{-- <span class="fa fa-plus"></span> --}}
           </div>
-          <div>
-            <a href="#popup1"><span class="fa fa-calendar"></span></a>
+          <div class="m-5">
+            <a href="#popup1"> Add New Task <span class="fa fa-plus"></span></a>
           </div>
-          <span class="txt ">Add new</span>
-          <input type="text">
         </div>
       </div>
   </div>
@@ -247,12 +233,17 @@
    
 <div id="popup1" class="overlay">
 	<div class="popup">
-		<h2>Date and Time </h2>
 		<a class="close" href="#">&times;</a>
+
 		<div class="content">
-      <input type="datetime-local" id="birthdaytime" name="birthdaytime" class="reminder">
-      <input type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full">
+      <h2> Task Name </h2>
+      <textarea class="taskName resize-none rounded-md outline-none focus:ring-2 focus:ring-blue-600 p-2 m-2" cols="30" rows="1"></textarea> 
+      <h2>Date and Time </h2>
+      <input type="datetime-local" class="reminder outline-none focus:ring-2 focus:ring-blue-600 p-2 m-2">
+      <input type="submit" class="addTask bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"
+      data-list-id="{{$listId}}" data-user-id="{{ Auth()->user()->id }}" data-list-name="{{$listName}}">
 		</div>
+
 	</div>
 </div>
     <!-- Tasks -->

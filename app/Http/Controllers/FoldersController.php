@@ -8,6 +8,12 @@ use Illuminate\Support\Facades\Auth;
 
 class FoldersController extends Controller
 {
+    // public function showing()
+    // {
+    //         return view("folders", [
+    //             "folders" => $this->index()
+    //         ]);
+    // }
     /**
      * Display a listing of the resource.
      *

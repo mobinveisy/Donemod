@@ -16,6 +16,7 @@
   <link rel="stylesheet" href="dashboard/assets/css/demo/style.css">
   <!-- End layout styles -->
   <link rel="shortcut icon" href="dashboard/assets/images/favicon.png" />
+  <link rel="stylesheet" href="{{asset("css/tailwindcss/app.css")}}" />
 </head>
 <body>
 {{-- <script src="dashboard/assets/js/preloader.js"></script> --}}
@@ -49,11 +50,6 @@
                 Dashboard
               </a>
             </div>
-            <form action="/logout" method="POST">
-              @csrf
-              <button type="submit" class="btn btn-primary"> Logout </button>
-            </form>
-
           </nav>
             <br><br><br>
         {{-- <div class="profile-actions">
@@ -104,39 +100,44 @@
               <button class="mdc-button mdc-menu-button">
                 <span class="d-flex align-items-center">
                   <span class="figure">
-                    <img src="dashboard/assets/images/faces/face1.png" alt="user" class="user">
+                    <img src="{{asset("img/vector_avatar.png")}}" alt="user" class="user">
                   </span>
                   <span class="user-name"> {{ Auth()->user()->name }} </span>
                 </span>
               </button>
               <div class="mdc-menu mdc-menu-surface" tabindex="-1">
                 <ul class="mdc-list" role="menu" aria-hidden="true" aria-orientation="vertical">
-                  <li class="mdc-list-item" role="menuitem">
+                  {{-- <li class="mdc-list-item" role="menuitem">
                     <div class="item-thumbnail item-thumbnail-icon-only">
                       <i class="mdi mdi-account-edit-outline text-primary"></i>
                     </div>
                     <div class="item-content d-flex align-items-start flex-column justify-content-center">
                       <h6 class="item-subject font-weight-normal">Edit profile</h6>
                     </div>
-                  </li>
+                  </li> --}}
+                  <form action="/logout" method="POST">
+                  <button type="submit" class="outline-none border-none">
                   <li class="mdc-list-item" role="menuitem">
                     <div class="item-thumbnail item-thumbnail-icon-only">
-                      <i class="mdi mdi-settings-outline text-primary"></i>                      
+                      <i class="mdi mdi-logout text-primary"></i>                   
                     </div>
-                    <div class="item-content d-flex align-items-start flex-column justify-content-center">    
+                    <div class="item-content d-flex align-items-start flex-column justify-content-center">
                         <h6 class="item-subject font-weight-normal">
+                            @csrf
                              Logout 
                         </h6>
                     </div>
                   </li>
+                </button>
+                </form>
                 </ul>
               </div>
             </div>
             <div class="divider d-none d-md-block"></div>
             <div class="menu-button-container d-none d-md-block">
-              <button class="mdc-button mdc-menu-button">
+              {{-- <button class="mdc-button mdc-menu-button">
                 <i class="mdi mdi-settings"></i>
-              </button>
+              </button> --}}
               <div class="mdc-menu mdc-menu-surface" tabindex="-1">
                 <ul class="mdc-list" role="menu" aria-hidden="true" aria-orientation="vertical">
                   <li class="mdc-list-item" role="menuitem">
@@ -159,9 +160,9 @@
               </div>
             </div>
             <div class="menu-button-container">
-              <button class="mdc-button mdc-menu-button">
+              {{-- <button class="mdc-button mdc-menu-button">
                 <i class="mdi mdi-bell"></i>
-              </button>
+              </button> --}}
               <div class="mdc-menu mdc-menu-surface" tabindex="-1">
                 <h6 class="title"> <i class="mdi mdi-bell-outline mr-2 tx-16"></i> Notifications</h6>
                 <ul class="mdc-list" role="menu" aria-hidden="true" aria-orientation="vertical">
@@ -205,12 +206,12 @@
               </div>
             </div>
             <div class="menu-button-container">
-              <button class="mdc-button mdc-menu-button">
+              {{-- <button class="mdc-button mdc-menu-button">
                 <i class="mdi mdi-email"></i>
                 <span class="count-indicator">
                   <span class="count">3</span>
                 </span>
-              </button>
+              </button> --}}
               <div class="mdc-menu mdc-menu-surface" tabindex="-1">
                 <h6 class="title"><i class="mdi mdi-email-outline mr-2 tx-16"></i> Messages</h6>
                 <ul class="mdc-list" role="menu" aria-hidden="true" aria-orientation="vertical">
@@ -245,9 +246,9 @@
               </div>
             </div>
             <div class="menu-button-container d-none d-md-block">
-              <button class="mdc-button mdc-menu-button">
-                <i class="mdi mdi-arrow-down-bold-box"></i>
-              </button>
+              {{-- <button class="mdc-button mdc-menu-button">
+                <i class="mdi mdi-logout"></i>
+              </button> --}}
               <div class="mdc-menu mdc-menu-surface" tabindex="-1">
                 <ul class="mdc-list" role="menu" aria-hidden="true" aria-orientation="vertical">
                   <li class="mdc-list-item" role="menuitem">

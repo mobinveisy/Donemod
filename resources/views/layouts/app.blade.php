@@ -16,6 +16,8 @@
     {{-- <main> --}}
         @yield('login')
         @yield('content')
+
+        
     <script src="{{ asset("js/FontAwesome/all.min.js") }}"></script>
     <script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
     <script src="{{ asset("js/scripts.js") }}"></script>
@@ -23,7 +25,7 @@
     <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script>
     <script src='https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js'></script>
     <script src='https://cdn.rawgit.com/egorshar/jquery-ui-sortable-animation/master/jquery.ui.sortable-animation.js'></script>
-      <script src="{{asset("js/scripts.js")}}"></script>
+    <script src="{{asset("js/scripts.js")}}"></script>
     <script>
         $(document).ready(function () {
         $.ajaxSetup({
@@ -31,45 +33,71 @@
               'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
           }
         });
+
+        //Update Task status
         $(".isDone").click(function(){
           var taskId = $(this).attr("data-task-id");
           $.ajax({
             method:"PUT",
             url:"/task/" + taskId,
             data:{},
-          }).done(function(name){
-          });
+          }).done(function(){});
         })
 
-        // $(".lists").click(function(){
+        //Delete Task
+        $(".deleteTask").click(function(){
+          var taskId = $(this).attr("data-task-id");
+          $.ajax({
+            method:"delete",
+            url:"/task/" + taskId,
+            data:{},
+          }).done(function(){});
+        })
+
+
+        // $(".lists").click(function() {
         //   var listId = $(this).attr("data-list-id");
         //   var listName = $(this).attr("data-list-name");
-        //   var url = "/tasks/" + listName + "/" + listId;
-        // //   var tasks = "@yield('tasks')"
         //   $.ajax({
         //     method:"GET",
-        //     url:url,
-        //     data:{},
-        //   }).done(function(name){
-        //     // location.reload();
-        //     // window.history.pushState("", "Title", url);           
+        //     url:"/test/task",
+        //     data:{
+        //       listId : listId
+        //     },
+        //   }).done(function(name)
+        //   {
+        //     $("#sortable").html(name);
         //   });
         // })
 
-        // $(".tasks").click(function(){
-        //   var listId = $(this).attr("data-list-id");
-        //   var listName = $(this).attr("data-list-name");
-        //   var taskId = $(this).attr("data-task-id");
-        //   var url = "/tasks/" + listName + "/" + listId + "/" + taskId;
-        //   $.ajax({
-        //     method:"GET",
-        //     url:url,
-        //     data:{},
-        //   }).done(function(name){
-        //     // window.history.pushState("", "Title", url);
-        //   });
-        // })
+
+        $(".addTask").click(function(){
+            var taskName = $(".taskName").val();
+            var remindData = $(".reminder").val();
+            var userId = $(this).attr("data-user-id");
+            var list_id = $(this).attr("data-list-id");
+            var listName = $(this).attr("data-list-name");
+            // alert(taskName + remindData + userId + list_id);
+            $.ajax({
+              method:"POST",
+              url:"/task",
+              data:{
+                taskName:taskName,
+                remindData:remindData,
+                userId:userId,
+                listId:list_id,
+              }
+            }).done(function(){
+              window.location.replace("/tasks/"+ listName + "/" + list_id);
+            })
+
+          });
+     
       })
+      // alert("dkhjdfg");
+      // var url = "/tasks/"+ listName.toLowerCase() + "/" + listId;
+      // window.history.pushState("object or string", "Title", url);
+      // location.reload();
         </script>
 </body>
 </html>
